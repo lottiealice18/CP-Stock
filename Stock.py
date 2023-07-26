@@ -1,6 +1,14 @@
+import base64
 import pandas as pd
 import streamlit as st
 from datetime import datetime
+
+def to_csv_download_link(df, filename):
+    # Convert DataFrame to CSV
+    csv = df.to_csv(index=False)
+    # Encode the CSV to base64
+    b64 = base64.b64encode(csv.encode()).decode()
+    return f'<a href="data:file/csv;base64,{b64}" download="{filename}.csv">Download CSV File</a>'
 
 def add_item(unique_key, checked_by):
     item = st.text_input("Enter last 4 digits of Barcode:", key=f"item_name{unique_key}")
@@ -58,12 +66,12 @@ def main():
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
         # Use the timestamp to create a unique filename for each CSV
-        filename = f"C:/Users/liamh/OneDrive/Desktop/Stock_{timestamp}.csv"
+        filename = f"Stock_{timestamp}"
 
-        # Save the accumulated DataFrame to a CSV file when finished
-        data.to_csv(filename, index=False)
-        st.success(f"Data saved successfully! Filename: {filename}")
+        # Generate a download link for the accumulated DataFrame
+        st.markdown(to_csv_download_link(data, filename), unsafe_allow_html=True)
+
+        st.success(f"Data ready for download! Filename: {filename}.csv")
 
 if __name__ == "__main__":
     main()
-
