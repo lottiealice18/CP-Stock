@@ -11,7 +11,7 @@ def to_csv_download_link(df, filename):
     return f'<a href="data:file/csv;base64,{b64}" download="{filename}.csv">Download CSV File</a>'
 
 def add_item(unique_key, checked_by):
-    item = st.text_input("Enter last 4 digits of Barcode:", key=f"item_name{unique_key}")
+    item = st.text_input("Enter Name Of Produce as on Label:", key=f"item_name{unique_key}")
     item_data = pd.DataFrame(columns=["Item", "Quantity", "Use By", "Checked By"])
 
     while item:
